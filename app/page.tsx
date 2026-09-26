@@ -111,9 +111,13 @@ export default function Home() {
                 )}
               </div>
             ))}
-            <div className="reveal flex flex-col items-end gap-3" style={d(700)}>
-              <CtaButton href="/#contact">{hero.cta}</CtaButton>
-              <GhostButton href="#projets" size="sm">Voir nos projets</GhostButton>
+            <div className="reveal flex w-[272px] flex-col gap-2.5" style={d(700)}>
+              <CtaButton href="/#contact" full>
+                {hero.cta}
+              </CtaButton>
+              <GhostButton href="#projets" full>
+                Voir nos projets
+              </GhostButton>
             </div>
           </div>
         </div>
