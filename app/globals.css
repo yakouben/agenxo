@@ -1,26 +1,330 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
+  --color-ink: #0b0b0b;
+  --color-card: #171717;
+  --color-card-2: #202020;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-muted: #9d9d9d;
+  --color-lime: #d0f601;
+  --color-dark: #141515;
+  --color-paper: #f3f3f5;
+  --font-sans: var(--font-sans-face);
+  --font-serif: var(--font-serif-face);
+
+  /* shadcn tokens used by components/ui (Button). */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Brand values: primary is the Agenxo violet, secondary the hover state.
+   The site is always dark, so there is a single set of values. */
+:root {
+  --background: #0b0b0b;
+  --foreground: #ffffff;
+  --primary: #5b34f2;
+  --primary-foreground: #ffffff;
+  --secondary: #ffffff;
+  --secondary-foreground: #3a26e8;
+  --accent: rgba(255, 255, 255, 0.06);
+  --accent-foreground: #ffffff;
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: #8a6bff;
+  --destructive: #ef4444;
+  --destructive-foreground: #f87171;
+}
+
+/* Brand gradient (from the Agenxo mark) for primary buttons. Declared as
+   utilities so variants like group-hover:bg-brand work. */
+@utility bg-brand {
+  background-color: #4b2ff0;
+  background-image: linear-gradient(120deg, #2f22e0 0%, #5b34f2 35%, #9a4cf0 65%, #3a26e8 100%);
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 10px 28px -12px rgba(91, 52, 242, 0.75);
+}
+/* Hover: the gradient flows and the glow lifts. */
+@utility bg-brand-shift {
+  background-position: 100% 50%;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 14px 36px -10px rgba(140, 76, 245, 0.9);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+html,
+main {
+  overflow-x: clip;
+}
+
+/* One continuous ambient backdrop behind every section, so the page reads as
+   a single surface instead of stacked black blocks. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 45% at 88% 8%, rgba(59, 60, 245, 0.2), transparent 70%),
+    radial-gradient(55% 45% at 8% 92%, rgba(138, 77, 255, 0.16), transparent 70%),
+    radial-gradient(40% 35% at 50% 50%, rgba(42, 28, 155, 0.12), transparent 70%);
+}
+
+/* Hide the page scrollbar on phones (scrolling still works). */
+@media (max-width: 639px) {
+  html {
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar {
+    display: none;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #0b0b0b;
+  color: #fff;
+  font-family: var(--font-sans-face), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+:focus-visible {
+  outline: 2px solid #d0f601;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+::selection {
+  background: #d0f601;
+  color: #141515;
+}
+
+/* ---------- Layout ---------- */
+.container-x {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+@media (min-width: 640px) {
+  .container-x { padding-inline: 24px; }
+}
+@media (min-width: 1024px) {
+  .container-x { padding-inline: 32px; }
+}
+
+/* overflow-x: clip keeps glows inside without breaking position: sticky. */
+.section {
+  position: relative;
+  overflow-x: clip;
+  padding-block: clamp(72px, 9vw, 128px);
+}
+.section-tight {
+  position: relative;
+  overflow-x: clip;
+  padding-block: clamp(48px, 6vw, 80px);
+}
+
+/* ---------- Type scale ---------- */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+.serif {
+  font-family: var(--font-serif-face), "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.t-display {
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  line-height: 1.02;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+.t-h1 {
+  font-size: clamp(2.25rem, 5.5vw, 4.5rem);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.t-h2 {
+  font-size: clamp(1.875rem, 4vw, 3.5rem);
+  line-height: 1.08;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+.t-h3 {
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.t-lead {
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+}
+.t-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.64);
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 99px;
+  background: #d0f601;
+}
+.code-mark {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ---------- Surfaces ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.card {
+  border-radius: 24px;
+  background: #171717;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.glass {
+  background: rgba(22, 22, 24, 0.55);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.pill-word {
+  display: inline-block;
+  padding: 0 0.16em 0.02em;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-family: var(--font-serif-face), serif;
+  font-style: italic;
+  font-weight: 400;
+}
+@media (min-width: 640px) {
+  .pill-word { padding: 0 0.28em 0.04em; }
+}
+
+/* ---------- Glows ---------- */
+.glow {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.7;
+  z-index: 0;
+}
+.glow-blue { background: radial-gradient(circle, #3b3cf5 0%, #2a1c9b 45%, transparent 70%); }
+.glow-violet { background: radial-gradient(circle, #8a4dff 0%, #4b1fb8 45%, transparent 70%); }
+.glow-drift { animation: drift 14s ease-in-out infinite alternate; }
+@keyframes drift {
+  from { transform: translate3d(-4%, -2%, 0) scale(1); }
+  to { transform: translate3d(6%, 4%, 0) scale(1.12); }
+}
+@media (max-width: 767px) {
+  .glow { filter: blur(60px); opacity: 0.5; }
+}
+
+/* ---------- Scroll reveals ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+/* Headline mask reveal: text slides up from behind a clip. */
+.reveal-title {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.4em);
+  transition: clip-path 1.1s cubic-bezier(0.7, 0, 0.2, 1), transform 1.1s cubic-bezier(0.7, 0, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal-title.in { clip-path: inset(-10% -5% -20% -5%); transform: none; }
+
+/* Image curtain reveal */
+.reveal-img {
+  clip-path: inset(12% 6% 12% 6% round 24px);
+  transition: clip-path 1.3s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.reveal-img.in { clip-path: inset(0 0 0 0 round 24px); }
+
+/* ---------- Motion utilities ---------- */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+.float {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+@keyframes float { 50% { translate: 0 -14px; } }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.fade-in { animation: fadeIn 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+.scroll-cue { animation: scrollCue 1.8s cubic-bezier(0.7, 0, 0.2, 1) infinite; }
+@keyframes scrollCue {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(200%); }
+}
+
+/* Route changes fade through instead of hard-cutting, so the site keeps
+   the feel of a single page. `backwards` leaves no transform behind,
+   which would otherwise break position: sticky/fixed inside. */
+.page-enter { animation: pageEnter 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(18px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-title, .reveal-img { opacity: 1; transform: none; clip-path: none; transition: none; }
+  .marquee, .float, .glow-drift, .scroll-cue, .page-enter { animation: none; }
 }
