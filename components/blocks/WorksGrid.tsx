@@ -105,7 +105,7 @@ export default function WorksGrid({ projects }: { projects: Project[] }) {
                     {[p.industry, ...p.tags].map((t) => (
                       <span key={t} className="rounded-full bg-[#262626] px-3.5 py-2 text-[14px]">{t}</span>
                     ))}
-                    <span className="rounded-full bg-[#262626] px-3 py-2 text-[14px]" aria-label={p.location}>🇫🇷</span>
+                    <span className="rounded-full bg-[#262626] px-3.5 py-2 text-[14px]">{p.location}</span>
                   </div>
                 </ProjectLink>
                 {p.url && (

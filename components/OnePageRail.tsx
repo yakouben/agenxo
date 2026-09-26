@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useScroll, useSpring } from "motion/react";
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { homeSections } from "@/lib/content";
 import { useActiveSection } from "@/lib/useActiveSection";
@@ -15,6 +16,13 @@ export default function OnePageRail() {
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
   const active = useActiveSection(ids, home);
   const index = Math.max(0, ids.indexOf(active ?? ids[0]));
+
+  // Drives the section-tinted page backdrop (see html[data-section] in globals.css).
+  useEffect(() => {
+    const root = document.documentElement;
+    if (home && active) root.dataset.section = active;
+    else delete root.dataset.section;
+  }, [home, active]);
 
   return (
     <>

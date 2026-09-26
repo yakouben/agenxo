@@ -224,9 +224,9 @@ export default function Home() {
       <section id="secteurs" className="section">
         <div className="container-x grid gap-10 lg:grid-cols-[1fr_1.6fr]">
           <SectionHead
-            eyebrow="Secteurs"
+            eyebrow="Domaines d'expertise"
             title={<>Notre expérience rejoint <span className="serif">votre marché</span></>}
-            text="Des boutiques pensées pour les codes de chaque secteur : seules les méthodes qui ont fait leurs preuves."
+            text="Du commerce de détail au commerce de gros, en passant par le luxe et les soins : des boutiques Shopify pensées pour les codes de chaque marché."
           />
           <IndustriesList />
         </div>

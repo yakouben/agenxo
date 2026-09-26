@@ -187,7 +187,7 @@ export function CasesStack({ items = projects.slice(0, 4) }: { items?: Project[]
       {items.map((p, i) => (
         <article
           key={p.slug}
-          className="card grid gap-8 !bg-ink p-5 sm:p-8 lg:sticky lg:grid-cols-[1fr_1.3fr] lg:p-10"
+          className="glass-card grid gap-8 rounded-[28px] !bg-[#111114]/85 p-5 sm:p-8 lg:sticky lg:grid-cols-[1fr_1.3fr] lg:p-10"
           style={{ top: `${110 + i * 18}px` }}
         >
           <div className="flex flex-col">

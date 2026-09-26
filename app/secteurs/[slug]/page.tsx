@@ -20,7 +20,7 @@ export default async function IndustryPage(props: PageProps<"/secteurs/[slug]">)
   const ind = industries.find((x) => x.slug === slug);
   if (!ind) notFound();
   const i = industries.indexOf(ind);
-  const matching = projects.filter((p) => p.industry === ind.name);
+  const matching = ind.projects.flatMap((slug) => projects.filter((p) => p.slug === slug));
   const cases = matching.length ? matching : projects.slice(0, 2);
 
   return (
@@ -29,11 +29,11 @@ export default async function IndustryPage(props: PageProps<"/secteurs/[slug]">)
         crumbs={[{ label: "Accueil", href: "/" }, { label: "Secteurs", href: "/secteurs" }, { label: ind.name }]}
         title={
           <>
-            Boutiques Shopify pour <span className="serif">{ind.name.toLowerCase()}</span>
+            Boutiques Shopify pour <span className="serif">{ind.audience}</span>
           </>
         }
         text={`${ind.short} : nous concevons des boutiques Shopify pensées pour les attentes de vos clients et les contraintes de votre secteur.`}
-        visual={projects[i % projects.length].image}
+        visual={(cases[0] ?? projects[i % projects.length]).image}
       />
 
       <section className="section">
@@ -41,10 +41,7 @@ export default async function IndustryPage(props: PageProps<"/secteurs/[slug]">)
           <SectionHead eyebrow="Fonctionnalités clés" title={<>Ce dont votre secteur <span className="serif">a besoin</span></>} />
           <div className="mt-12">
             <FeatureGrid
-              items={[
-                ...ind.tags.map((t) => ({ title: t, text: "Une fonctionnalité pensée pour votre secteur et intégrée à votre boutique." })),
-                { title: "Mobile d'abord", text: "La majorité de vos clients achètent sur smartphone." },
-              ]}
+              items={ind.features}
             />
           </div>
         </div>
@@ -61,7 +58,7 @@ export default async function IndustryPage(props: PageProps<"/secteurs/[slug]">)
 
       <section className="section">
         <div className="container-x">
-          <SectionHead align="center" eyebrow="Services" title={<>Nos services pour <span className="serif">{ind.name.toLowerCase()}</span></>} />
+          <SectionHead align="center" eyebrow="Services" title={<>Nos services pour <span className="serif">{ind.audience}</span></>} />
           <div className="mt-12">
             <ServicesMatrix />
           </div>

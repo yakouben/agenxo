@@ -76,16 +76,55 @@ export const solutions: Solution[] = [
     heroTitle: "Un expert Shopify dédié", heroText: "Renforcez votre équipe avec un développeur Shopify expérimenté, disponible au mois, sans recrutement." },
 ];
 
-export type Industry = { slug: string; name: string; short: string; tags: string[] };
+// Domains of expertise, as listed on the Malt profile.
+export type Industry = {
+  slug: string;
+  name: string;
+  // Used in sentences: "Boutiques Shopify pour {audience}".
+  audience: string;
+  short: string;
+  tags: string[];
+  features: { title: string; text: string }[];
+  // Project slugs (lib/content.ts) shown as references on the sector page.
+  projects: string[];
+};
 
 export const industries: Industry[] = [
-  { slug: "mode", name: "Mode & prêt-à-porter", short: "Collections, tailles et lookbooks", tags: ["Lookbook", "Guide des tailles", "Drops"] },
-  { slug: "beaute", name: "Beauté & cosmétique", short: "Routines, abonnements et échantillons", tags: ["Routines", "Abonnements", "Quiz"] },
-  { slug: "parfum", name: "Parfumerie", short: "Notes, coffrets et découverte", tags: ["Coffrets", "Échantillons", "Gravure"] },
-  { slug: "alimentation", name: "Alimentation", short: "Épicerie fine, pâtisserie et box", tags: ["Box", "Livraison locale", "Click & collect"] },
-  { slug: "maison", name: "Maison & déco", short: "Configurateurs et visualisation", tags: ["Configurateur", "3D", "Échantillons"] },
-  { slug: "services", name: "Services & réservation", short: "Créneaux, voyages et formations", tags: ["Réservation", "Acomptes", "Rappels"] },
-  { slug: "b2b", name: "B2B & grossistes", short: "Catalogues pros et devis", tags: ["Prix pros", "Devis", "ERP"] },
+  {
+    slug: "e-commerce", name: "E-commerce", audience: "les e-commerçants",
+    short: "Des boutiques en ligne pensées pour convertir, du lancement à la croissance",
+    tags: ["Tunnel d'achat", "Conversion", "Fidélisation"],
+    features: [f("Tunnel d'achat optimisé", "Un parcours court et rassurant, de la fiche produit au paiement."), f("Upsell & bundles", "Routines, packs et produits complémentaires pour augmenter le panier moyen."), f("Fidélisation", "Programmes de points, parrainage et relances automatisées."), f("Pilotage", "Analytics et tableaux de bord pour suivre ce qui fait vendre.")],
+    projects: ["uniikon", "rosebaie", "imphair"],
+  },
+  {
+    slug: "produits-de-luxe", name: "Produits de luxe", audience: "les produits de luxe",
+    short: "Une expérience d'achat à la hauteur de l'image de votre marque",
+    tags: ["Image premium", "Storytelling", "Coffrets"],
+    features: [f("Direction artistique premium", "Typographies, photos et animations au niveau de votre marque."), f("Storytelling", "Savoir-faire, origine et matières mis en scène."), f("Coffrets & personnalisation", "Gravure, emballage cadeau et éditions limitées."), f("Service client haut de gamme", "Prise de rendez-vous, conseil et suivi personnalisé.")],
+    projects: ["miss-musc", "maison-terre"],
+  },
+  {
+    slug: "produits-de-soins", name: "Produits de soins et d'entretien", audience: "les produits de soins et d'entretien",
+    short: "Des routines claires et des fiches produits qui rassurent",
+    tags: ["Routines", "Diagnostic", "Abonnements"],
+    features: [f("Navigation par besoin", "Vos clients trouvent le bon soin selon leur problématique."), f("Diagnostic & quiz", "Une recommandation personnalisée qui mène à la routine complète."), f("Abonnements", "Réassort automatique pour les produits du quotidien."), f("Réassurance", "Composition, avis et bénéfices visibles dès la fiche produit.")],
+    projects: ["imphair", "uniikon", "rosebaie", "ophtalmic-sante"],
+  },
+  {
+    slug: "commerce-de-detail", name: "Commerce de détail", audience: "le commerce de détail",
+    short: "Un catalogue riche, des stocks synchronisés et des points de vente connectés",
+    tags: ["Catalogue", "Click & collect", "Omnicanal"],
+    features: [f("Catalogue structuré", "Collections, filtres et recherche pour un grand nombre de références."), f("Click & collect", "Retrait en magasin et stocks par point de vente."), f("Omnicanal", "Boutique en ligne et magasins physiques synchronisés."), f("Promotions", "Offres, codes et temps forts commerciaux faciles à piloter.")],
+    projects: ["chery-france", "omoda-jaecoo", "ophtalmic-sante"],
+  },
+  {
+    slug: "commerce-de-gros", name: "Commerce de gros", audience: "le commerce de gros",
+    short: "Catalogues pros, prix dédiés et commandes en volume",
+    tags: ["Espace pro", "Prix dédiés", "ERP"],
+    features: [f("Espace professionnel", "Accès réservé, catalogues et conditions par client."), f("Prix & paliers", "Tarifs dédiés, remises par quantité et minimums de commande."), f("Commande rapide", "Réassort en quelques clics, devis et paiement différé."), f("Intégration ERP", "Stocks, commandes et factures synchronisés.")],
+    projects: ["imphair", "projet-7"],
+  },
 ];
 
 export const processSteps = [

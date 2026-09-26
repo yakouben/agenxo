@@ -17,7 +17,7 @@ function Panel({ p, i, total }: { p: Project; i: number; total: number }) {
   const f = p.featured!;
 
   return (
-    <article className="relative rounded-[28px] border border-white/[0.08] bg-[#141414] sm:rounded-[36px]">
+    <article className="glass-card rounded-[28px] sm:rounded-[36px]">
       <div className="relative grid gap-8 p-5 sm:p-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12 lg:p-10">
         {/* Story */}
         <div className="flex min-w-0 flex-col lg:sticky lg:top-28 lg:self-start">
@@ -64,7 +64,7 @@ function Panel({ p, i, total }: { p: Project; i: number; total: number }) {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.9, ease: EASE, delay: k * 0.08 }}
             >
-              <ProjectLink p={p} className="group relative block overflow-hidden rounded-[20px] sm:rounded-[26px]">
+              <ProjectLink p={p} className="group relative block overflow-hidden rounded-[20px] ring-1 ring-white/10 sm:rounded-[26px]">
                 <Image
                   src={g.src}
                   alt={`${p.name} — maquette ${k + 1}`}
@@ -129,11 +129,11 @@ export default function FeaturedWork() {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.8, ease: EASE, delay: i * 0.06 }}
           >
-            <ProjectLink p={p} className="group block">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-card">
+            <ProjectLink p={p} className="glass-card group block rounded-[24px] p-2">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-card">
                 <Image src={p.image} alt={p.name} fill sizes="340px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
-              <div className="mt-3 flex items-center justify-between gap-3">
+              <div className="flex items-center justify-between gap-3 px-2 pb-1.5 pt-3">
                 <span className="font-medium transition-colors group-hover:text-lime">{p.name}</span>
                 <span className="text-xs text-white/45">{p.industry}</span>
               </div>

@@ -75,6 +75,27 @@ main {
 
 /* One continuous ambient backdrop behind every section, so the page reads as
    a single surface instead of stacked black blocks. */
+/* The backdrop's colours and glow positions are typed custom properties so they
+   can transition: on the home page, OnePageRail sets html[data-section] and the
+   whole backdrop drifts to that section's tint instead of cutting between blocks. */
+@property --amb-a { syntax: "<color>"; inherits: true; initial-value: rgba(59, 60, 245, 0.2); }
+@property --amb-b { syntax: "<color>"; inherits: true; initial-value: rgba(138, 77, 255, 0.16); }
+@property --amb-c { syntax: "<color>"; inherits: true; initial-value: rgba(42, 28, 155, 0.12); }
+@property --amb-ax { syntax: "<percentage>"; inherits: true; initial-value: 88%; }
+@property --amb-bx { syntax: "<percentage>"; inherits: true; initial-value: 8%; }
+
+html {
+  transition: --amb-a 1.4s ease, --amb-b 1.4s ease, --amb-c 1.4s ease, --amb-ax 1.8s ease, --amb-bx 1.8s ease;
+}
+html[data-section="projets"] { --amb-a: rgba(138, 77, 255, 0.22); --amb-b: rgba(59, 60, 245, 0.18); --amb-c: rgba(91, 52, 242, 0.14); --amb-ax: 12%; --amb-bx: 90%; }
+html[data-section="avis"] { --amb-a: rgba(180, 90, 255, 0.2); --amb-b: rgba(59, 60, 245, 0.16); --amb-c: rgba(138, 77, 255, 0.1); --amb-ax: 80%; --amb-bx: 15%; }
+html[data-section="pourquoi"] { --amb-a: rgba(59, 90, 245, 0.22); --amb-b: rgba(91, 52, 242, 0.14); --amb-c: rgba(42, 28, 155, 0.14); --amb-ax: 20%; --amb-bx: 85%; }
+html[data-section="services"] { --amb-a: rgba(91, 52, 242, 0.2); --amb-b: rgba(59, 60, 245, 0.18); --amb-c: rgba(42, 28, 155, 0.12); --amb-ax: 85%; --amb-bx: 10%; }
+html[data-section="secteurs"] { --amb-a: rgba(138, 77, 255, 0.18); --amb-b: rgba(59, 90, 245, 0.18); --amb-c: rgba(42, 28, 155, 0.1); --amb-ax: 15%; --amb-bx: 88%; }
+html[data-section="blog"] { --amb-a: rgba(59, 60, 245, 0.2); --amb-b: rgba(154, 76, 240, 0.16); --amb-c: rgba(42, 28, 155, 0.12); --amb-ax: 75%; --amb-bx: 20%; }
+html[data-section="faq"] { --amb-a: rgba(91, 52, 242, 0.16); --amb-b: rgba(59, 60, 245, 0.14); --amb-c: rgba(42, 28, 155, 0.1); --amb-ax: 25%; --amb-bx: 80%; }
+html[data-section="contact"] { --amb-a: rgba(138, 77, 255, 0.26); --amb-b: rgba(59, 60, 245, 0.22); --amb-c: rgba(91, 52, 242, 0.16); --amb-ax: 50%; --amb-bx: 50%; }
+
 body::before {
   content: "";
   position: fixed;
@@ -82,9 +103,12 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(60% 45% at 88% 8%, rgba(59, 60, 245, 0.2), transparent 70%),
-    radial-gradient(55% 45% at 8% 92%, rgba(138, 77, 255, 0.16), transparent 70%),
-    radial-gradient(40% 35% at 50% 50%, rgba(42, 28, 155, 0.12), transparent 70%);
+    radial-gradient(60% 45% at var(--amb-ax) 8%, var(--amb-a), transparent 70%),
+    radial-gradient(55% 45% at var(--amb-bx) 92%, var(--amb-b), transparent 70%),
+    radial-gradient(40% 35% at 50% 50%, var(--amb-c), transparent 70%);
+}
+@media (prefers-reduced-motion: reduce) {
+  html { transition: none; }
 }
 
 /* Hide the page scrollbar on phones (scrolling still works). */
@@ -231,6 +255,18 @@ h1, h2, h3 {
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
+/* Frosted glass panel for project cards: a faint light-to-clear fill, hairline
+   border, a highlight along the top edge and a deep soft shadow. */
+.glass-card {
+  position: relative;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.025) 45%, rgba(255, 255, 255, 0.04) 100%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 40px 90px -45px rgba(0, 0, 0, 0.85);
+  transition: border-color 0.5s ease, background 0.5s ease;
+}
+.glass-card:hover { border-color: rgba(255, 255, 255, 0.18); }
 .pill-word {
   display: inline-block;
   padding: 0 0.16em 0.02em;
